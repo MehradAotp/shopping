@@ -6,6 +6,8 @@ import { ShoppingController } from './shopping/shopping.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Shopping, ShoppingSchema } from './shopping/database/model';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { Shopping, ShoppingSchema } from './shopping/database/model';
       }),
     }),
     ShoppingModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [ShoppingController],
   providers: [ShoppingService],

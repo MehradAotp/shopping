@@ -6,11 +6,17 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ShoppingService } from './shopping.service';
 import { ShoppingOutput } from './dto/shop-output.dto';
 import { createShopping, updateShopping } from './dto/shop.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiTags('Shopping')
+@ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 @Controller('shopping')
 export class ShoppingController {
   constructor(private readonly shoppingService: ShoppingService) {}
