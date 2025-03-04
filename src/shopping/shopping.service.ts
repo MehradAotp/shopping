@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Shopping } from './database/model';
-import { ShoppingOutput } from './dto/shop-output.dto';
+import { buyShoppingOutput, ShoppingOutput } from './dto/shop-output.dto';
 import { createShopping, updateShopping } from './dto/shop.dto';
 
 @Injectable()
@@ -38,6 +38,10 @@ export class ShoppingService {
 
   async delete(id: string): Promise<void> {
     await this.shoppingModel.findByIdAndDelete(id);
+  }
+
+  async buy(): Promise<buyShoppingOutput> {
+    return { message: 'پرداخت با موفقیت انجام شد 🎉' };
   }
 
   private docToDto(doc: Shopping): ShoppingOutput {

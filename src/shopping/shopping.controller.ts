@@ -9,19 +9,19 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ShoppingService } from './shopping.service';
-import { ShoppingOutput } from './dto/shop-output.dto';
+import { buyShoppingOutput, ShoppingOutput } from './dto/shop-output.dto';
 import { createShopping, updateShopping } from './dto/shop.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Shopping')
 @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard)
 @Controller('shopping')
 export class ShoppingController {
   constructor(private readonly shoppingService: ShoppingService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() shopping: createShopping): Promise<ShoppingOutput> {
     return this.shoppingService.create(shopping);
   }
@@ -37,6 +37,7 @@ export class ShoppingController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() shopping: updateShopping,
@@ -45,7 +46,14 @@ export class ShoppingController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: string): Promise<void> {
     return this.shoppingService.delete(id);
+  }
+
+  @Post('buy')
+  @UseGuards(JwtAuthGuard)
+  async buy(): Promise<buyShoppingOutput> {
+    return this.shoppingService.buy();
   }
 }

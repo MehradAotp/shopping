@@ -4,3 +4,7 @@ export class ShoppingOutput {
   price: number;
   image: string;
 }
+
+export class buyShoppingOutput {
+  message: string;
+}
