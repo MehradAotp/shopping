@@ -9,7 +9,12 @@ async function bootstrap() {
     bufferLogs: false,
   });
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:6003',
+      'http://localhost:3000',
+      'http://192.192.1.44:6003',
+    ],
     methods: 'GET, POST, PUT, DELETE, PATCH',
     allowedHeaders: 'Content-Type, Authorization',
   });
