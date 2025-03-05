@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ShoppingModule } from './shopping/shopping.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { CartModule } from './cart/cart.module';
 
 export const main = (app: INestApplication) => {
   const config = new DocumentBuilder()
@@ -15,7 +16,7 @@ export const main = (app: INestApplication) => {
     .build();
 
   const appDocument = SwaggerModule.createDocument(app, config, {
-    include: [AppModule, ShoppingModule, AuthModule, UsersModule],
+    include: [AppModule, ShoppingModule, AuthModule, UsersModule, CartModule],
     operationIdFactory(controllerKey, methodKey) {
       return methodKey;
     },
