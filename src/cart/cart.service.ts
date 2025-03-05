@@ -23,7 +23,7 @@ export class CartService {
     return this.docToDto(cart);
   }
 
-  async addToCart(userId: string, shoppingId: string) {
+  async addToCart(userId: string, shoppingId: string): Promise<CartOutputDto> {
     let cart = await this.cartModel.findOne({ userId });
 
     if (!cart) {
@@ -45,10 +45,13 @@ export class CartService {
 
     await cart.save();
 
-    return cart;
+    return this.docToDto(cart);
   }
 
-  async removeFromCart(userId: string, shoppingId: string) {
+  async removeFromCart(
+    userId: string,
+    shoppingId: string,
+  ): Promise<CartOutputDto> {
     const cart = await this.cartModel.findOne({ userId });
 
     if (!cart) {
@@ -61,9 +64,12 @@ export class CartService {
 
     await cart.save();
 
-    return cart;
+    return this.docToDto(cart);
   }
-  async incrementCartItem(userId: string, shoppingId: string) {
+  async incrementCartItem(
+    userId: string,
+    shoppingId: string,
+  ): Promise<CartOutputDto> {
     const cart = await this.cartModel.findOne({ userId });
 
     if (!cart) {
@@ -80,10 +86,13 @@ export class CartService {
     item.quantity += 1;
     await cart.save();
 
-    return cart;
+    return this.docToDto(cart);
   }
 
-  async decrementCartItem(userId: string, shoppingId: string) {
+  async decrementCartItem(
+    userId: string,
+    shoppingId: string,
+  ): Promise<CartOutputDto> {
     const cart = await this.cartModel.findOne({ userId });
 
     if (!cart) {
@@ -107,10 +116,10 @@ export class CartService {
 
     await cart.save();
 
-    return cart;
+    return this.docToDto(cart);
   }
 
-  async clearCart(data: ClearCartDto) {
+  async clearCart(data: ClearCartDto): Promise<void> {
     await this.cartModel.deleteOne({ userId: data.userId });
   }
 
