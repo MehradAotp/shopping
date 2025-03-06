@@ -18,7 +18,7 @@ export class CartService {
       .lean();
 
     if (!cart) {
-      return { userId, items: [] };
+      return { items: [] };
     }
     return this.docToDto(cart);
   }
@@ -45,7 +45,12 @@ export class CartService {
 
     await cart.save();
 
-    return this.docToDto(cart);
+    const populatedCart = await this.cartModel
+      .findById(cart._id)
+      .populate('items.shoppingId')
+      .lean();
+
+    return this.docToDto(populatedCart);
   }
 
   async removeFromCart(
@@ -86,7 +91,12 @@ export class CartService {
     item.quantity += 1;
     await cart.save();
 
-    return this.docToDto(cart);
+    const populatedCart = await this.cartModel
+      .findById(cart._id)
+      .populate('items.shoppingId')
+      .lean();
+
+    return this.docToDto(populatedCart);
   }
 
   async decrementCartItem(
@@ -116,7 +126,12 @@ export class CartService {
 
     await cart.save();
 
-    return this.docToDto(cart);
+    const populatedCart = await this.cartModel
+      .findById(cart._id)
+      .populate('items.shoppingId')
+      .lean();
+
+    return this.docToDto(populatedCart);
   }
 
   async clearCart(data: ClearCartDto): Promise<void> {
@@ -129,7 +144,7 @@ export class CartService {
     if (shopping instanceof Types.ObjectId) {
       return {
         _id: shopping.toString(),
-        name: '',
+        name: 'محصول یافت نشد',
         price: 0,
         image: '',
       };
@@ -147,7 +162,6 @@ export class CartService {
     doc: Cart & { items: Array<{ shoppingId: Shopping | Types.ObjectId }> },
   ): CartOutputDto {
     return {
-      userId: doc.userId,
       items: doc.items.map((item) => ({
         shoppingId: this.shoppingToOutputDto(item.shoppingId),
         quantity: item.quantity,
